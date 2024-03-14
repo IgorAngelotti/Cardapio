@@ -98,17 +98,21 @@ cartItemsContainer.addEventListener("click", function (event) {
     }
 })
 
+
 function removerItemCart(name) {
     const index = cart.findIndex(item => item.name === name);
+
     if (index !== -1) {
-        item = cart[index];
+        const item = cart[index];
+
         if (item.quantity > 1) {
-            item.quantity -= 1
-            updateCartModal()
+            item.quantity -= 1;
+            updateCartModal();
+            return;
         }
 
-        item.splice(index, 1)
-
+        cart.splice(index, 1);
+        updateCartModal();
 
     }
 }
@@ -126,8 +130,20 @@ checkoutBtn.addEventListener("click", function () {
 
     const isOpen = checkRestaurantOpen();
     if (!isOpen) {
-        alert("RESTAURANTE FECHADO NO MOMENTO")
-        return
+        Toastify({
+            text: "Ops, o restaurante está fechado!",
+            duration: 3000,
+            close: true,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            stopOnFocus: true, // Prevents dismissing of toast on hover
+            style: {
+                background: "#ef4444",
+            },
+        }).showToast();
+
+        return;
+
     }
 
     if (cart.length === 0) return;
@@ -137,8 +153,19 @@ checkoutBtn.addEventListener("click", function () {
         return;
     }
 
-    console.log(cart)
+    const cartItems = cart.map(item => {
+        return (
+            `${item.name} Quantidade: (${item.quantity}) Preço: ${item.price} | `
+        )
+    }).join("")
 
+    const message = encodeURIComponent(cartItems)
+    const phone = "17981696381"
+
+    window.open(`https://wa.me/${phone}?text=${message} Endereço: ${addressInput.value}`, "_blank")
+
+    cart = [];
+    updateCartModal()
 })
 
 
