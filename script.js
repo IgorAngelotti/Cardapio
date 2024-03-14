@@ -100,19 +100,61 @@ cartItemsContainer.addEventListener("click", function (event) {
 
 function removerItemCart(name) {
     const index = cart.findIndex(item => item.name === name);
-
-    if (index !== -1){
-        const item = cart[index];
-
-        if (item.quantity > 1){
-            item.quantity -= 1;
-            updateCartModal();
-            return;
-        }else{
-            cart.splice(index, 1);
+    if (index !== -1) {
+        item = cart[index];
+        if (item.quantity > 1) {
+            item.quantity -= 1
             updateCartModal()
-            return;
         }
+
+        item.splice(index, 1)
+
+
+    }
+}
+
+addressInput.addEventListener("input", function (event) {
+    let inputValue = event.target.value;
+    if (inputValue !== "") {
+        addressWarn.classList.add("hidden")
+        addressInput.classList.remove("border-red-500")
+    }
+})
+
+//FINALIZAR PEDIDO
+checkoutBtn.addEventListener("click", function () {
+
+    const isOpen = checkRestaurantOpen();
+    if (!isOpen) {
+        alert("RESTAURANTE FECHADO NO MOMENTO")
+        return
     }
 
+    if (cart.length === 0) return;
+    if (addressInput.value === "") {
+        addressWarn.classList.remove("hidden")
+        addressInput.classList.add("border-red-500")
+        return;
+    }
+
+    console.log(cart)
+
+})
+
+
+function checkRestaurantOpen() {
+    const time = new Date();
+    const hora = time.getHours();
+    return hora >= 18 && hora < 23;
+}
+
+const spanItem = document.getElementById("date-span")
+const isOpen = checkRestaurantOpen()
+
+if (isOpen) {
+    spanItem.classList.remove("bg-red-500");
+    spanItem.classList.add("bg-[#54CC0A]")
+} else {
+    spanItem.classList.remove("bg-[#54CC0A]")
+    spanItem.classList.add("bg-red-500")
 }
