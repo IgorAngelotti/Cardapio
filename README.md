@@ -1,5 +1,5 @@
 # 🍔 Cardápio da hamburgueria Console Burguer
-## [Console Burguer](https://igorangelotti.github.io/Cardapio/)
+## [Console Burguer](https://cardapio-woad.vercel.app/)
 - HTML 5
 - CSS3
 - JavaScript
